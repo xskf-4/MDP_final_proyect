@@ -32,7 +32,7 @@ Este programa implementa los siguientes algoritmos:
 
 1. Clona el repositorio:
 
-```
+```console
     git clone https://github.com/xskf-4/MDP_final_proyect.git
     cd MDP_final_proyect
 ```
@@ -50,7 +50,9 @@ El programa utiliza códigos escape ANSI para manipular colores en la terminal. 
 
 Ejecuta el programa pasando uno o más archivos de texto como argumentos:
 
-    `./bin/Proyecto_final archivo1.txt archivo2.txt`
+```console
+    ./bin/Proyecto_final archivo1.txt archivo2.txt
+```
 
 ### Formato de los Archivos de Entrada
 
@@ -60,9 +62,10 @@ Los archivos `.txt` deben seguir una estructura específica para ser considerado
 
 Indicar el número total de estados y acciones utilizando el siguiente formato (`$` indica el número).
 
-    `#decisiones: $`
-
-    `#estados: $`
+```
+    #decisiones: $
+    #estados: $
+```
 
 2. Matrices de Transición: 
 
