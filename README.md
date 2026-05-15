@@ -32,13 +32,14 @@ Este programa implementa los siguientes algoritmos:
 
 1. Clona el repositorio:
 
-    `git clone https://github.com/xskf-4/MDP_final_proyect.git`
-    `cd MDP_final_proyect`
+```
+    git clone https://github.com/xskf-4/MDP_final_proyect.git
+    cd MDP_final_proyect
+```
 
 2. Compilar el proyecto:
 
     `gcc src/main.c src/list.c src/matrix_.c src/simplex.c -Iinclude -o bin/Proyecto_final`
-
 
 #### Consideraciones Adicionales
 
@@ -65,16 +66,20 @@ Indicar el número total de estados y acciones utilizando el siguiente formato (
 
 2. Matrices de Transición: 
 
-Indicar la matriz de transición para la decision `k` de la siguiente forma.
+Indicar la matriz de transición para la decisión `k` de la siguiente forma.
 
-    `#k: ...`
+```
+    #k: ...
+```
 
 3. Matriz de Recompenzas o Costos:
 
 Indicar la matriz de recompenzas o costos de la siguiente forma.
 
-    `#recompenzas: ...`
-    `#costos: ...`
+```
+    #recompenzas: ...
+    #costos: ...
+```
 
 #### Consideraciones Adicionales
 
@@ -84,21 +89,13 @@ Indicar la matriz de recompenzas o costos de la siguiente forma.
 
 ### Flujo del Programa
 
-1. Inicio.
+1. Inicio: El programa comienza con el primer argumento dado.
 
-El programa comienza con el primer argumento dado.
+2. Carga: El programa lee el archivo en posición.
 
-2. Carga.
+3. Validación: El programa valida que el modelo leído sea consistente (probabilidades válidas, dimensiones correctas).
 
-El programa lee el archivo en posición.
-
-3. Validación.
-
-El programa valida que el modelo leído sea consistente (probabilidades válidas, dimensiones correctas).
-
-4. Menú Interactivo.
-
-Permite al usuario la selección de los métodos de resolución, saltar al siguiente archivo en la cola o terminar la ejecución.
+4. Menú Interactivo: Permite al usuario la selección de los métodos de resolución, saltar al siguiente archivo en la cola o terminar la ejecución.
 
 #### Consideraciones Adicionales
 
