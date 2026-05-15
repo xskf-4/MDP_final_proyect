@@ -1,0 +1,12 @@
+# Ejecutables
+*.exe
+*.out
+app
+
+# Objetos y librerías
+*.o
+*.a
+*.so
+
+# Carpetas de compilación
+bin/
