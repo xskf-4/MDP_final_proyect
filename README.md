@@ -39,7 +39,9 @@ Este programa implementa los siguientes algoritmos:
 
 2. Compilar el proyecto:
 
-    `gcc src/main.c src/list.c src/matrix_.c src/simplex.c -Iinclude -o bin/Proyecto_final`
+```console
+    gcc src/main.c src/list.c src/matrix_.c src/simplex.c -Iinclude -o bin/Proyecto_final
+```
 
 #### Consideraciones Adicionales
 
@@ -62,7 +64,7 @@ Los archivos `.txt` deben seguir una estructura específica para ser considerado
 
 Indicar el número total de estados y acciones utilizando el siguiente formato (`$` indica el número).
 
-```
+```text
     #decisiones: $
     #estados: $
 ```
@@ -71,7 +73,7 @@ Indicar el número total de estados y acciones utilizando el siguiente formato (
 
 Indicar la matriz de transición para la decisión `k` de la siguiente forma.
 
-```
+```text
     #k: ...
 ```
 
@@ -79,7 +81,7 @@ Indicar la matriz de transición para la decisión `k` de la siguiente forma.
 
 Indicar la matriz de recompenzas o costos de la siguiente forma.
 
-```
+```text
     #recompenzas: ...
     #costos: ...
 ```
