@@ -101,7 +101,3 @@ Indicar la matriz de recompenzas o costos de la siguiente forma.
 3. Validación: El programa valida que el modelo leído sea consistente (probabilidades válidas, dimensiones correctas).
 
 4. Menú Interactivo: Permite al usuario la selección de los métodos de resolución, saltar al siguiente archivo en la cola o terminar la ejecución.
-
-#### Consideraciones Adicionales
-
-Cada que se termine un proceso, es indispensable presionar enter para continuar con la ejecución del programa.
