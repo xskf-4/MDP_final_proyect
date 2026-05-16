@@ -1,3 +1,9 @@
+/**
+ * @file MDP.c
+ * @brief Implementation of parsing input files proccess
+ * @author Hernandez Reyes Sebastian (xskf-4)
+ * @date 2026
+*/
 #ifndef MDP_IMPLEMENTATION
     #include "MDP.c"
 #endif
