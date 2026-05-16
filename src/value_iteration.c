@@ -1,3 +1,9 @@
+/**
+ * @file value_iteration.c
+ * @brief Implementation of value iteration algorithm
+ * @author Hernandez Reyes Sebastian (xskf-4)
+ * @date 2026
+*/
 #ifndef MDP_IMPLEMENTATION
     #include "MDP.c"
 #endif
