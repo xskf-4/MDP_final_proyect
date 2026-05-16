@@ -1,3 +1,9 @@
+/**
+ * @file policy_improvement.c
+ * @brief Implementation of policy improvement algorithms (with / without discount factor)
+ * @author Hernandez Reyes Sebastian (xskf-4)
+ * @date 2026
+*/
 #ifndef MDP_IMPLEMENTATION
     #include "MDP.c"
 #endif
