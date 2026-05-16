@@ -1,7 +1,11 @@
+/**
+ * @file simplex.h
+ * @brief Definition of interfaces, macros and structures of the simplex method
+ * @author Hernandez Reyes Sebastian (xskf-4)
+ * @date 2026
+*/
 #ifndef SIMPLEX_H
 #define SIMPLEX_H
-
-#include <math.h>
 
 #include <matrix_.h>
 
