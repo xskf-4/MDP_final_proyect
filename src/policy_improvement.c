@@ -261,6 +261,7 @@ uint32_t policy_improvement_solve_MDP(MDP *mdp) {
         // step 2 (Policy improve)
         policy_improvement_improve(&X, mdp);
         policy_improvement_print_iteration(X);
+        X.iteration++;
     } while(!Policy_are_equal(mdp->optimal_policy, X.P));
 
     // Print results

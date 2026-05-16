@@ -10,3 +10,5 @@ app
 
 # Carpetas de compilación
 bin/
+.vscode/
+.DS_Store
