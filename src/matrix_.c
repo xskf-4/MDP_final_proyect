@@ -1,10 +1,11 @@
-/*
-    matrix.c
+/**
+ * @file matrix_.c
+ * @brief Implementation of interfaces of matrices
+ * @author Hernandez Reyes Sebastian (xskf-4)
+ * @date 2026
 */
-#include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
-#include <time.h>
 #include <math.h>
 
 #include "matrix_.h"
