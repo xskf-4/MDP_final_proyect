@@ -1,3 +1,9 @@
+/**
+ * @file LP_aproach.c
+ * @brief Implementation of Linear Programming algorithm
+ * @author Hernandez Reyes Sebastian (xskf-4)
+ * @date 2026
+*/
 #ifndef MDP_IMPLEMENTATION
     #include "MDP.c"
 #endif
