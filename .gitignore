@@ -10,5 +10,7 @@ app
 
 # Carpetas de compilación
 bin/
+
+# Archivos del editor
 .vscode/
 .DS_Store
