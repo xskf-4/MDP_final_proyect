@@ -1,5 +1,8 @@
-/*
-    list.h
+/**
+ * @file list.h
+ * @brief Definition of public macros and structure for list
+ * @author Hernandez Reyes Sebastian (xskf-4)
+ * @date 2024
 */
 #ifndef LIST_H
 #define LIST_H
