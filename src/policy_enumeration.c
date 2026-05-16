@@ -1,3 +1,9 @@
+/**
+ * @file policy_enumeration.c
+ * @brief Implementation of policy enumeration algorithm
+ * @author Hernandez Reyes Sebastian (xskf-4)
+ * @date 2026
+*/
 #ifndef MDP_IMPLEMENTATION
     #include "MDP.c"
 #endif
