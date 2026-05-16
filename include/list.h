@@ -1,6 +1,6 @@
 /**
  * @file list.h
- * @brief Definition of public macros and structure for list
+ * @brief Definition of interfaces, macros and structures of lists
  * @author Hernandez Reyes Sebastian (xskf-4)
  * @date 2024
 */
