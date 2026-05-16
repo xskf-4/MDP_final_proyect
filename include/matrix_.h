@@ -1,3 +1,9 @@
+/**
+ * @file matrix_.h
+ * @brief Definition of interfaces, macros and structure of matrices
+ * @author Hernandez Reyes Sebastian (xskf-4)
+ * @date 2026
+*/
 #ifndef MATRIX_H
 #define MATRIX_H
 
