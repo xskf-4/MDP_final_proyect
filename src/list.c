@@ -1,5 +1,8 @@
-/*
-    list.c
+/**
+ * @file list.c
+ * @brief Definition of interfaces of lists
+ * @author Hernandez Reyes Sebastian (xskf-4)
+ * @date 2024
 */
 #include <stdlib.h>
 #include <string.h>
