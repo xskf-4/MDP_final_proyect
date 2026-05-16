@@ -1,5 +1,5 @@
 /**
- * @file MDP.c
+ * @file read_input.c
  * @brief Implementation of parsing input files proccess
  * @author Hernandez Reyes Sebastian (xskf-4)
  * @date 2026
