@@ -1,5 +1,5 @@
 /**
- * @file MDP.c
+ * @file simplex.c
  * @brief Implementation of simplex method
  * @author Hernandez Reyes Sebastian (xskf-4)
  * @date 2026
