@@ -1,3 +1,9 @@
+/**
+ * @file main.c
+ * @brief Main entry point for the mdp solver application
+ * @author Hernandez Reyes Sebastian (xskf-4)
+ * @date 2026
+*/
 #include "menu.c"
 
 int main(int argc, char **argv) {
