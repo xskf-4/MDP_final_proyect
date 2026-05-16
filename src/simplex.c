@@ -1,6 +1,14 @@
-#include <matrix_.h>
+/**
+ * @file MDP.c
+ * @brief Implementation of simplex method
+ * @author Hernandez Reyes Sebastian (xskf-4)
+ * @date 2026
+*/
+#include <math.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include <matrix_.h>
 
 #include "simplex.h"
 
