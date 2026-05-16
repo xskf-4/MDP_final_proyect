@@ -103,7 +103,7 @@ void print_end() {
 void end_proccess() {
     char input[MAX_INPUT_SIZE];
     terminal_color_main_title();
-    printf("\n\nFin del Proceso");
+    printf("\n\nFin del Proceso (Presione Enter)");
     terminal_color_reset();
     fgets(input, MAX_INPUT_SIZE, stdin);
 }
