@@ -1,3 +1,9 @@
+/**
+ * @file utils.c
+ * @brief Implementation of global interfaces
+ * @author Hernandez Reyes Sebastian (xskf-4)
+ * @date 2026
+*/
 #include <stdio.h>
 #include <ctype.h>
 #include <math.h>
