@@ -1,3 +1,9 @@
+/**
+ * @file menu.c
+ * @brief Implementation of the main menu and set application flow
+ * @author Hernandez Reyes Sebastian (xskf-4)
+ * @date 2026
+*/
 #include "include.c"
 
 #define not_enought_arguments_provided "No se ingresaron archivos fuente"
