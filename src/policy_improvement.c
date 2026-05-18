@@ -235,8 +235,6 @@ uint32_t policy_improvement_improve(policy_improvement *X, MDP *mdp) {
     for(i = 0; i < mdp->n_states; i++)
         optimal_decisions[i] = policy_improvement_set_optimal_decision(i, X, mdp);
 
-    printf("\nDecisiones optimas: ");
-    print_uint32_array(optimal_decisions, mdp->n_states, 3);
     Policy_set_from_array(&(X->P), optimal_decisions, *mdp);
     free(optimal_decisions);
     return 0;
@@ -363,12 +361,12 @@ uint32_t policy_improvement_discount_factor_set_value(policy_improvement *X, MDP
     /* Set matrix system */
     // set A
     for(i = 0; i < mdp->n_states; i++) {
-        (X->S).A.values[i][i] += 1.0;
-
         // sum
         for(j = 0; j < mdp->n_states; j++) {
-            (X->S).A.values[i][j] -= (X->discount_factor) * (X->P).M.values[i][j];
+            (X->S).A.values[i][j] = - (X->discount_factor) * (X->P).M.values[i][j];
         }
+
+        (X->S).A.values[i][i] += 1.0;
     }
 
     // set b
