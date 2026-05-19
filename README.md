@@ -32,16 +32,16 @@ Este programa implementa los siguientes algoritmos:
 
 1. Clona el repositorio:
 
-```console
-    git clone https://github.com/xskf-4/MDP_final_proyect.git
-    cd MDP_final_proyect
-```
+    ```console
+        git clone https://github.com/xskf-4/MDP_solver.git
+        cd MDP_solver
+    ```
 
 2. Compilar el proyecto:
 
-```console
-    gcc src/main.c src/list.c src/matrix_.c src/simplex.c -Iinclude -o bin/Proyecto_final
-```
+    ```console
+        gcc src/main.c src/list.c src/matrix_.c src/simplex.c -Iinclude -o bin/Proyecto_final
+    ```
 
 #### Consideraciones Adicionales
 
@@ -62,35 +62,37 @@ Los archivos `.txt` deben seguir una estructura específica para ser considerado
 
 1. Definición de Estados y Acciones:
 
-Indicar el número total de estados y acciones utilizando el siguiente formato (`$` indica el número).
+    Indicar el número total de estados y acciones utilizando el siguiente formato (`$` indica el número).
 
-```text
-    #decisiones: $
-    #estados: $
-```
+    ```text
+        #decisiones: $
+        #estados: $
+    ```
 
 2. Matrices de Transición: 
 
-Indicar la matriz de transición para la decisión `k` de la siguiente forma.
+    Indicar la matriz de transición para la decisión `k` de la siguiente forma.
 
-```text
-    #k: ...
-```
+    ```text
+        #k: ...
+    ```
 
 3. Matriz de Recompenzas o Costos:
 
-Indicar la matriz de recompenzas o costos de la siguiente forma.
+    Indicar la matriz de recompenzas o costos de la siguiente forma.
 
-```text
-    #recompenzas: ...
-    #costos: ...
-```
+    ```text
+        #recompenzas: ...
+        #costos: ...
+    ```
 
 #### Consideraciones Adicionales
 
 - `...` son los valores de la matriz en formato decimal o fracción (`$/$`) separados por espacios (` `) o saltos de línea (`\n`). La cantidad de valores deben ser por lo menos del mismo tamaño de la matriz correspondiente, valores posteriores serán ignorados.
 
-- En el caso de las matrices de transición para indicar que una decisión no es válida en cierto estado los valores de ese renglón correspondiente deben ser `-1`.
+- En el caso de las matrices de transición, para indicar que una decisión no es válida en cierto estado los valores de ese renglón correspondiente deben ser `-1`.
+
+- Para la matriz de costos o recompenzas, si una decisión no es válida en cierto estado, el valor correspondiente en la matriz será ignorado pero es indispensable que exista para que la matriz esté completa.
 
 ### Flujo del Programa
 
