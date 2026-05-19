@@ -94,6 +94,8 @@ Los archivos `.txt` deben seguir una estructura específica para ser considerado
 
 - Para la matriz de costos o recompenzas, si una decisión no es válida en cierto estado, el valor correspondiente en la matriz será ignorado pero es indispensable que exista para que la matriz esté completa.
 
+- Toda la información (número de estados, número de decisiones y matrices) puede presentarse en cualquier orden.
+
 ### Flujo del Programa
 
 1. Inicio: El programa comienza con el primer argumento dado.
