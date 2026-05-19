@@ -11,6 +11,8 @@ app
 # Carpetas de compilación
 bin/*
 
+!bin/.gitkeep
+
 # Archivos del editor
 .vscode/
 .DS_Store
