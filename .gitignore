@@ -9,7 +9,7 @@ app
 *.so
 
 # Carpetas de compilación
-bin/
+bin/*
 
 # Archivos del editor
 .vscode/
