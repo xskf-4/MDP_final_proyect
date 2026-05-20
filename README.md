@@ -37,7 +37,7 @@ Este programa implementa los siguientes algoritmos:
         cd MDP_solver
     ```
 
-2. Compilar el proyecto:
+2. Compila el proyecto:
 
     ```console
         gcc src/main.c src/list.c src/matrix_.c src/simplex.c -Iinclude -o bin/Proyecto_final
@@ -45,8 +45,7 @@ Este programa implementa los siguientes algoritmos:
 
 #### Consideraciones Adicionales
 
-El programa utiliza códigos escape ANSI para manipular colores en la terminal. Utilizar el programa en una terminal que no admita true-color o sea incompatible con los códigos escape ANSI,
- resultará en comportamiento no deseable al menos visualmente (Se está trabajando en ello).
+El programa utiliza códigos escape ANSI para manipular colores en la terminal. Utilizar el programa en una terminal que no admita true-color o sea incompatible con los códigos escape ANSI, resultará en comportamiento no deseable al menos visualmente (Se está trabajando en ello).
 
 ### Uso
 
