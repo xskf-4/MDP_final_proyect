@@ -9,6 +9,7 @@
 
 #include <stdint.h>
 
+#include "list.h"
 #include "matrix_.h"
 
 /*

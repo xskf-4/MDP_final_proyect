@@ -4,12 +4,12 @@
  * @author Hernandez Reyes Sebastian (xskf-4)
  * @date 2026
 */
-#ifndef MDP_IMPLEMENTATION
-    #include "MDP.c"
-#endif
-#ifndef UTILS_IMPLEMENTATION
-    #include "utils.c"
-#endif
+
+#include <stdlib.h>
+#include <string.h>
+
+#include "utils.h"
+#include "MDP.h"
 
 typedef struct {
     uint32_t n_states;
@@ -108,7 +108,6 @@ uint32_t read_word_list(MDP *mdp, List *word_list) {
         return -1;
     
     ListNode *node = list_head(word_list);
-    uint32_t i = 0;
     char *word;
 
     Reading_status reading_status = {

@@ -7,9 +7,12 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#include <stdio.h>
 #include <stdint.h>
 #include <ctype.h>
+#include <math.h>
 
+#include "list.h"
 #include "matrix_.h"
 
 /*

@@ -4,9 +4,16 @@
  * @author Hernandez Reyes Sebastian (xskf-4)
  * @date 2026
 */
-#include "include.c"
 
-#define not_enought_arguments_provided "No se ingresaron archivos fuente"
+#include "utils.h"
+#include "MDP.h"
+
+#include "read_input.c"
+#include "policy_enumeration.c"
+#include "LP_approach.c"
+#include "policy_improvement.c"
+#include "value_iteration.c"
+
 #define proccess_error "Error durante el proceso"
 
 void print_main_title() {

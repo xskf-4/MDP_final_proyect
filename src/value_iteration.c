@@ -4,12 +4,9 @@
  * @author Hernandez Reyes Sebastian (xskf-4)
  * @date 2026
 */
-#ifndef MDP_IMPLEMENTATION
-    #include "MDP.c"
-#endif
-#ifndef UTILS_IMPLEMENTATION
-    #include "utils.c"
-#endif
+
+#include "utils.h"
+#include "MDP.h"
 
 typedef struct {
     double discount_factor;
