@@ -1,23 +1,32 @@
 /**
  * @file matrix_.c
- * @brief Implementation of interfaces of matrices
+ * @brief Implementation of uint32_terfaces of matrices
  * @author Hernandez Reyes Sebastian (xskf-4)
  * @date 2026
 */
 #include <stdlib.h>
+#include <stdint.h>
 #include <stdarg.h>
 #include <math.h>
 
 #include "matrix_.h"
 
+// Inner functions
+static uint32_t is_in_range(uint32_t n,uint32_t l_low, uint32_t l_upp) {
+    if(l_low <= n && n<=l_upp)
+        return 1;
+
+    return 0;
+}
+
 /*
     Initialize the matrix
 */
-int matrix_init(Matrix *M, int n_rows, int n_columns) {
+uint32_t matrix_init(Matrix *M, uint32_t n_rows, uint32_t n_columns) {
     if(n_rows < 1 || n_columns < 1)
         return 1;
 
-    int i;
+    uint32_t i;
 
     M->values = (double **)malloc(sizeof(double *) * n_rows);
 
@@ -40,9 +49,9 @@ int matrix_init(Matrix *M, int n_rows, int n_columns) {
 /*
     Initialize multiple matrices
 */
-int matrix_init_matrices(int n_rows, int n_columns, int n_matrices, ...) {
+uint32_t matrix_init_matrices(uint32_t n_rows, uint32_t n_columns, uint32_t n_matrices, ...) {
     va_list matrices;
-    int i;
+    uint32_t i;
     Matrix *M_i;
 
     va_start(matrices, n_matrices);
@@ -61,11 +70,11 @@ int matrix_init_matrices(int n_rows, int n_columns, int n_matrices, ...) {
 /*
     Destroying the matrix
 */
-int matrix_destroy(Matrix *M) {
+uint32_t matrix_destroy(Matrix *M) {
     if(!matrix_is_init(M))
         return 1;
     
-    int i;
+    uint32_t i;
 
     for(i = 0; i < M->rows; i++)
         free((M->values)[i]);
@@ -81,9 +90,9 @@ int matrix_destroy(Matrix *M) {
 /*
     Destroying multiple matrices
 */
-int matrix_destroy_matrices(int n_matrices, ...) {
+uint32_t matrix_destroy_matrices(uint32_t n_matrices, ...) {
     va_list matrices;
-    int i;
+    uint32_t i;
     Matrix *M_i;
 
     va_start(matrices, n_matrices);
@@ -102,7 +111,7 @@ int matrix_destroy_matrices(int n_matrices, ...) {
 /*
     Returns 1 if the matrix is inizialized, 0 otherwise
 */
-int matrix_is_init(Matrix *M) {
+uint32_t matrix_is_init(Matrix *M) {
     if(M == NULL)
         return 0;
 
@@ -115,14 +124,14 @@ int matrix_is_init(Matrix *M) {
 /*
     Returns 1 if the matrix is symmetric, 0 otherwise
 */
-int matrix_is_symmetrical(Matrix *M) {
+uint32_t matrix_is_symmetrical(Matrix *M) {
     if(!matrix_is_init(M))
         return 0;
 
     if(!matrix_is_square(M))
         return 0;
 
-    int i, j;
+    uint32_t i, j;
 
     for(i = 0; i < M->rows; i++) {
         for(j = i+1; j < M->columns; j++) {
@@ -137,14 +146,14 @@ int matrix_is_symmetrical(Matrix *M) {
 /*
     Returns 1 if the matrix is diagonally dominant
 */
-int matrix_is_diagonally_dominant(Matrix *M) {
+uint32_t matrix_is_diagonally_dominant(Matrix *M) {
     if(!matrix_is_init(M))
         return 0;
 
     if(!matrix_is_square(M))
         return 0;
 
-    int i, j;
+    uint32_t i, j;
     double aux[2];
 
     for(i = 0; i < M->rows; i++) {
@@ -166,7 +175,7 @@ int matrix_is_diagonally_dominant(Matrix *M) {
 /*
     Returns 1 if the matrix determinant is 0
 */
-int matrix_is_invertible(Matrix *M) {
+uint32_t matrix_is_invertible(Matrix *M) {
     double determinante;
 
     matrix_gaussian_determinant(M, &determinante);
@@ -180,11 +189,8 @@ int matrix_is_invertible(Matrix *M) {
 /*
     Swaps the rows according to the given indices
 */
-int matrix_swap_rows(Matrix *M, int n_row1, int n_row2) {
+uint32_t matrix_swap_rows(Matrix *M, uint32_t n_row1, uint32_t n_row2) {
     if(!matrix_is_init(M))
-        return 1;
-    
-    if(n_row1 < 0 || n_row2 < 0)
         return 1;
 
     if(n_row1 >= M->rows || n_row2 >= M->rows)
@@ -204,15 +210,12 @@ int matrix_swap_rows(Matrix *M, int n_row1, int n_row2) {
 /*
     Swaps the columns according to the given indices
 */
-int matrix_swap_columns(Matrix *M, int n_column1, int n_column2) {
-    if(n_column1 < 0 || n_column2 < 0)
-        return 1;
-
+uint32_t matrix_swap_columns(Matrix *M, uint32_t n_column1, uint32_t n_column2) {
     if(n_column1 >= M->columns || n_column2 >= M->columns)
         return 1;
 
     double aux;
-    int i;
+    uint32_t i;
 
     for(i = 0; i < M->rows; i++) {
         aux = (M->values)[i][n_column1];
@@ -225,12 +228,12 @@ int matrix_swap_columns(Matrix *M, int n_column1, int n_column2) {
 /*
     Multiplies a row of a matrix by a scalar
 */
-int matrix_scale_row(Matrix *M, int n_row, double escalar) {
-    int i;
+uint32_t matrix_scale_row(Matrix *M, uint32_t n_row, double escalar) {
+    uint32_t i;
     if(!matrix_is_init(M))
         return 1;
 
-    if(n_row >= M->rows || n_row < 0)
+    if(n_row >= M->rows)
         return 1;
 
     for(i = 0; i < M->columns; i++)
@@ -242,12 +245,12 @@ int matrix_scale_row(Matrix *M, int n_row, double escalar) {
 /*
     Multiplies a column of a matrix by a scalar
 */
-int matrix_scale_column(Matrix *M, int n_column, double escalar) {
-    int i;
+uint32_t matrix_scale_column(Matrix *M, uint32_t n_column, double escalar) {
+    uint32_t i;
     if(!matrix_is_init(M))
         return 1;
 
-    if(n_column >= M->columns || n_column < 0)
+    if(n_column >= M->columns)
         return 1;
 
     for(i = 0; i < M->rows; i++)
@@ -259,8 +262,8 @@ int matrix_scale_column(Matrix *M, int n_column, double escalar) {
 /*
     Adds the src row, multiplied by a scalar, to the dest row
 */
-int matrix_elementary_row_op1(Matrix *M, int n_row_dest, int n_row_src, double escalar) {
-    int i;
+uint32_t matrix_elementary_row_op1(Matrix *M, uint32_t n_row_dest, uint32_t n_row_src, double escalar) {
+    uint32_t i;
     if(!matrix_is_init(M))
         return 1;
 
@@ -277,13 +280,13 @@ int matrix_elementary_row_op1(Matrix *M, int n_row_dest, int n_row_src, double e
 }
 
 /*
-    Clones column j from M_src into column i from M_dest
+    Clones column j from M_src uint32_to column i from M_dest
 */
-int matrix_clone_column(Matrix *M_dest, Matrix *M_src, int i, int j) {
-    if(i < 0 || i > M_dest->columns)
+uint32_t matrix_clone_column(Matrix *M_dest, Matrix *M_src, uint32_t i, uint32_t j) {
+    if(i > M_dest->columns)
         return 1;
 
-    if(j < 0 || j > M_src->columns)
+    if(j > M_src->columns)
         return 1;
 
     if(M_dest->rows != M_src->rows)
@@ -299,8 +302,8 @@ int matrix_clone_column(Matrix *M_dest, Matrix *M_src, int i, int j) {
 /*
     Returns the submatrix produced
 */
-int matrix_submatrix(Matrix *M_dest, Matrix *M_src, int n_row_i, int n_row_f, int n_column_i, int n_column_f) {
-    int i, j;
+uint32_t matrix_submatrix(Matrix *M_dest, Matrix *M_src, uint32_t n_row_i, uint32_t n_row_f, uint32_t n_column_i, uint32_t n_column_f) {
+    uint32_t i, j;
     if(!(matrix_is_init(M_dest) && matrix_is_init(M_src)))
         return 1;
 
@@ -323,11 +326,11 @@ int matrix_submatrix(Matrix *M_dest, Matrix *M_src, int n_row_i, int n_row_f, in
 /*
     Assigns random values to the entries of the given matrix
 */
-int matrix_random(Matrix *M) {
+uint32_t matrix_random(Matrix *M) {
     if(!matrix_is_init(M))
         return 1;
 
-    int i, j;
+    uint32_t i, j;
 
     for(i = 0; i < M->rows; i++) {
         for(j = 0; j < M->columns; j++) {
@@ -343,14 +346,14 @@ int matrix_random(Matrix *M) {
 /*
     Returns the determinant of the given matrix
 */
-int matrix_gaussian_determinant(Matrix *M, double *det) {
+uint32_t matrix_gaussian_determinant(Matrix *M, double *det) {
     if(!matrix_is_init(M))
         return 1;
 
     if(!matrix_is_square(M))
         return 1;
 
-    int i, j;
+    uint32_t i, j;
     double aux;
     Matrix A;
 
@@ -386,8 +389,8 @@ int matrix_gaussian_determinant(Matrix *M, double *det) {
 /*
     Transposes the given matrix
 */
-int matrix_transpose(Matrix *M_dest, Matrix *M_src) {
-    int i, j;
+uint32_t matrix_transpose(Matrix *M_dest, Matrix *M_src) {
+    uint32_t i, j;
     Matrix A;
     if(!(matrix_is_init(M_src) && matrix_is_init(M_dest)))
         return 1;
@@ -411,8 +414,8 @@ int matrix_transpose(Matrix *M_dest, Matrix *M_src) {
 /*
     Sets the given matrix to the identity matrix
 */
-int matrix_identity(Matrix *M) {
-    int i, j;
+uint32_t matrix_identity(Matrix *M) {
+    uint32_t i, j;
 
     if(!matrix_is_init(M) || !matrix_is_square(M))
         return 1;
@@ -431,8 +434,8 @@ int matrix_identity(Matrix *M) {
 /*
     Sets the matrix entries to 0
 */
-int matrix_zero(Matrix *M) {
-    int i, j;
+uint32_t matrix_zero(Matrix *M) {
+    uint32_t i, j;
     if(!matrix_is_init(M))
         return 1;
 
@@ -446,8 +449,8 @@ int matrix_zero(Matrix *M) {
 /*
     Copies the values from one matrix to another
 */
-int matrix_clone(Matrix *M_dest, Matrix *M_src) {
-    int i, j;
+uint32_t matrix_clone(Matrix *M_dest, Matrix *M_src) {
+    uint32_t i, j;
 
     if(!(matrix_is_init(M_dest) && matrix_is_init(M_src)))
         return 1;
@@ -465,7 +468,7 @@ int matrix_clone(Matrix *M_dest, Matrix *M_src) {
 /*
     Computes the matrix inverse using Gauss-Jordan elimination
 */
-int matrix_inverse(Matrix *M_dest, Matrix *M_src) {
+uint32_t matrix_inverse(Matrix *M_dest, Matrix *M_src) {
     if(!(matrix_is_init(M_dest) && matrix_is_init(M_src)))
         return 1;
 
@@ -475,8 +478,8 @@ int matrix_inverse(Matrix *M_dest, Matrix *M_src) {
     if(!matrix_have_same_dimentions(M_dest, M_src))
         return 1;
 
-    int i, j, k, row_pivot;
-    double det, aux, pivot;
+    uint32_t i, j, row_pivot;
+    double pivot;
     Matrix A;
 
     if(!matrix_is_invertible(M_src))
@@ -519,14 +522,14 @@ int matrix_inverse(Matrix *M_dest, Matrix *M_src) {
 /*
     Performs an element-wise operation between two matrices
 */
-int matrix_entrywise_operation(Matrix *M_dest, Matrix *M_x, Matrix *M_y, double (operacion)(double x, double y)) {
+uint32_t matrix_entrywise_operation(Matrix *M_dest, Matrix *M_x, Matrix *M_y, double (operacion)(double x, double y)) {
     if(!(matrix_is_init(M_x) && matrix_is_init(M_y) && matrix_is_init(M_dest)))
         return 1;
 
     if(!(matrix_have_same_dimentions(M_x, M_y) && matrix_have_same_dimentions(M_dest, M_x)))
         return 1;
     
-    int i, j;
+    uint32_t i, j;
     Matrix A, B;
 
     matrix_init(&A, M_x->rows, M_x->columns);
@@ -547,14 +550,14 @@ int matrix_entrywise_operation(Matrix *M_dest, Matrix *M_x, Matrix *M_y, double 
 /*
     Changes the sign of the entries of the src matrix
 */
-int matrix_negate(Matrix *M_dest, Matrix *M_src) {
+uint32_t matrix_negate(Matrix *M_dest, Matrix *M_src) {
     if(!(matrix_is_init(M_dest) && matrix_is_init(M_src)))
         return 1;
 
     if(!matrix_have_same_dimentions(M_dest, M_src))
         return 1;
 
-    int i, j;
+    uint32_t i, j;
     Matrix A;
     matrix_init(&A, M_src->rows, M_src->columns);
     matrix_clone(&A, M_src);
@@ -569,7 +572,7 @@ int matrix_negate(Matrix *M_dest, Matrix *M_src) {
 /*
     Performs multiplication of two given matrices
 */
-int matrix_multiplication(Matrix *M_dest, Matrix *M_x, Matrix *M_y) {
+uint32_t matrix_multiplication(Matrix *M_dest, Matrix *M_x, Matrix *M_y) {
     if(!(matrix_is_init(M_x) && matrix_is_init(M_y) && matrix_is_init(M_dest)))
         return 1;
 
@@ -579,7 +582,7 @@ int matrix_multiplication(Matrix *M_dest, Matrix *M_x, Matrix *M_y) {
     if(!(M_dest->rows == M_x->rows && M_dest->columns == M_y->columns))
         return 1;
     
-    int i, j, k;
+    uint32_t i, j, k;
     Matrix A, B;
 
     matrix_init(&A, M_x->rows, M_x->columns);
@@ -604,11 +607,11 @@ int matrix_multiplication(Matrix *M_dest, Matrix *M_x, Matrix *M_y) {
 /*
     Computes the Euclidean norm of a matrix
 */
-int matrix_euclidean_norm(Matrix *M, double *norm) {
+uint32_t matrix_euclidean_norm(Matrix *M, double *norm) {
     if(!matrix_is_init(M))
         return 1;
 
-    int i, j;
+    uint32_t i, j;
     *norm = 0;
 
     for(i = 0; i < M->rows; i++)
@@ -622,11 +625,11 @@ int matrix_euclidean_norm(Matrix *M, double *norm) {
 /*
     Computes the Sum norm of a matrix
 */
-int matrix_sum_norm(Matrix *M, double *norm) {
+uint32_t matrix_sum_norm(Matrix *M, double *norm) {
     if(!matrix_is_init(M))
         return 1;
 
-    int i, j;
+    uint32_t i, j;
     *norm = 0;
 
     for(i = 0; i < M->rows; i++)
@@ -639,14 +642,14 @@ int matrix_sum_norm(Matrix *M, double *norm) {
 /*
     Computes the Max norm of a matrix
 */
-int matrix_max_norm(Matrix *M, double *norm) {
+uint32_t matrix_max_norm(Matrix *M, double *norm) {
     if(!matrix_is_init(M))
         return 1;
 
     if(M->columns != 1)
         return 1;
 
-    int i, j;
+    uint32_t i, j;
     double aux;
     *norm = 0;
 
@@ -666,12 +669,4 @@ double add(double x, double y) {
 
 double subtract(double x, double y) {
     return x - y; 
-}
-
-// Inner functions
-static int is_in_range(int n,int l_low, int l_upp) {
-    if(l_low <= n && n<=l_upp)
-        return 1;
-
-    return 0;
 }
