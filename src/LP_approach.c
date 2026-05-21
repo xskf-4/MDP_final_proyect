@@ -74,7 +74,7 @@ void LPP_matrix_form_print(LPP_matrix_form LPP, MDP mdp) {
 }
 
 void LP_approach_print_results(MDP mdp, LPP_matrix_form LPP) {
-    size_t i, j, l;
+    size_t i, l;
     ListNode *node;
     uint32_t decision;
 
@@ -91,6 +91,7 @@ void LP_approach_print_results(MDP mdp, LPP_matrix_form LPP) {
             break;
         case NON_BOUNDED_SOLUTION:
             res = "Solucion no acotada";
+            break;
         case MAX_ITERATION:
             res = "Maximo de iteraciones alcanzadas";
             break;
@@ -225,7 +226,7 @@ uint32_t Set_optimal_policy(MDP *mdp, Matrix x, double z) {
         // sum y_j
         sum_y_j = 0.0;
         node = list_head(mdp->valid_state_decisions_lists + i);
-        for(j = 0; j < list_size(mdp->valid_state_decisions_lists + i); j++) {
+        for(j = 0; j < (size_t )list_size(mdp->valid_state_decisions_lists + i); j++) {
             decision = *(uint32_t *)list_data(node) - 1;
 
             (D.values)[i][decision] = (x.values)[l][0];
