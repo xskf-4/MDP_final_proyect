@@ -219,7 +219,6 @@ void MDP_set_labels(char *labels[2], MDP mdp) {
 }
 
 void Policy_print(Policy P, char *s[2]) {
-    size_t i;
     uint32_t states = P.M.rows;
     
     terminal_color_content();
