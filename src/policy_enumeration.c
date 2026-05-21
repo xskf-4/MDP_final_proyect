@@ -44,9 +44,8 @@ void feasible_policies_init(feasible_policies *f_p, MDP mdp) {
         f_p->policy_[i] = (uint32_t *)malloc(sizeof(uint32_t) * (mdp.n_states));
 }
 
-void feasible_policies_destroy(feasible_policies *f_p, MDP mdp) {
+void feasible_policies_destroy(feasible_policies *f_p) {
     size_t i;
-    uint32_t decisions = mdp.n_decisions, states = mdp.n_states;
 
     for(i = 0; i < f_p->n; i++)
         free(f_p->policy_[i]);
@@ -175,6 +174,6 @@ uint32_t policy_enumeration_solve_MDP(MDP *mdp) {
     Policy_print(mdp->optimal_policy, s);
 
     // destroy data
-    feasible_policies_destroy(&f_p, *mdp);
+    feasible_policies_destroy(&f_p);
     return 0;
 }
