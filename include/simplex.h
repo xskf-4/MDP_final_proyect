@@ -51,51 +51,11 @@ typedef struct {
     Solution_type solution_type;
 } LPP_matrix_form;
 
-typedef struct {
-    Matrix A;
-    Matrix b;
-    Matrix c;
-    Matrix B;
-    Matrix inv_B;
-    Matrix cB;
-    Matrix xB;
-    Matrix ANB;
-    Matrix cNB;
-    Matrix zNB;
-    Matrix z;
-    int *x_B;
-    int *x_NB;
-} LPP_matrix_standard_form;
-
-typedef struct {
-    double a;
-    double b;
-} M_point;
 
 // Public interfaces
 
 int Simplex_solve(LPP_matrix_form *LPP);
 int LPP_matrix_form_init(LPP_matrix_form *LPP, size_t n_variables, size_t n_constrains);
 int LPP_matrix_form_destroy(LPP_matrix_form *LPP);
-
-// Inner interfaces
-
-static int LPP_matrix_form_clone(LPP_matrix_form *LPP_dest, LPP_matrix_form *LPP_src);
-
-static int LPP_matrix_standard_form_init(LPP_matrix_standard_form *LPP, size_t n_variables, size_t n_constrains);
-static int LPP_matrix_standard_form_destroy(LPP_matrix_standard_form *LPP);
-
-static int LPP_matrix_form_to_standard_form(LPP_matrix_standard_form *LPP_dest, LPP_matrix_form *LPP_src);
-static int LPP_matrix_standard_form_set_matrices(LPP_matrix_standard_form *LPP);
-
-static int big_M_comparison(M_point x, M_point y);
-static int LPP_matrix_standard_form_find_entry_variable(LPP_matrix_standard_form *LPP, size_t *entry_index);
-static int LPP_matrix_standard_form_set_inv_B(LPP_matrix_standard_form *LPP, Matrix y_i, size_t entry_index, size_t leaving_index);
-static int LPP_matrix_standard_form_find_leaving_variable(LPP_matrix_standard_form *LPP, size_t *leaving_index, size_t entry_index);
-static int LPP_matrix_standard_form_set_new_solution(LPP_matrix_standard_form *LPP);
-
-static int Simplex_method(LPP_matrix_standard_form *LPP);
-static int LPP_matrix_form_set_solution_type(LPP_matrix_form *LPP_dest, LPP_matrix_standard_form LPP_src, int value);
-static int LPP_matrix_form_set_solution(LPP_matrix_form *LPP_dest, LPP_matrix_standard_form *LPP_src);
 
 #endif

@@ -12,61 +12,28 @@
 
 #include "simplex.h"
 
-int Simplex_solve(LPP_matrix_form *LPP) {
-    if(LPP == NULL)
-        return 0;
+// inner structs
+typedef struct {
+    Matrix A;
+    Matrix b;
+    Matrix c;
+    Matrix B;
+    Matrix inv_B;
+    Matrix cB;
+    Matrix xB;
+    Matrix ANB;
+    Matrix cNB;
+    Matrix zNB;
+    Matrix z;
+    int *x_B;
+    int *x_NB;
+} LPP_matrix_standard_form;
 
-    LPP_matrix_standard_form LPP_std;
+typedef struct {
+    double a;
+    double b;
+} M_point;
 
-    LPP_matrix_form_to_standard_form(&LPP_std, LPP);
-
-    // Simplex method
-    int value = Simplex_method(&LPP_std);
-    
-    /* Translate solution */
-    LPP_matrix_form_set_solution_type(LPP, LPP_std, value);
-
-    LPP_matrix_form_set_solution(LPP, &LPP_std);
-
-    LPP_matrix_standard_form_destroy(&LPP_std);
-    return 1;
-}
-
-int LPP_matrix_form_init(LPP_matrix_form *LPP, size_t n_variables, size_t n_constrains) {
-    if(matrix_init(&(LPP->A), n_constrains, n_variables) != 0)
-        return 1;
-    
-    if(matrix_init_column_vector(&(LPP->b), n_constrains) != 0)
-        return 1;
-    
-    if(matrix_init_column_vector(&(LPP->x), n_variables) != 0)
-        return 1;
-
-    if(matrix_init_row_vector(&(LPP->c), n_variables) != 0)
-        return 1;
-
-    (LPP->constrain_type_) = (Constrain_type *)malloc(sizeof(Constrain_type) * n_constrains);
-    (LPP->variable_type_) = (Variable_type *)malloc(sizeof(Variable_type) * n_variables);
-
-    if(LPP->constrain_type_ == NULL)
-        return 1;
-
-    if(LPP->variable_type_ == NULL)
-        return 1;
-
-    memset(LPP->constrain_type_, NONE_CONSTRAIN, sizeof(Constrain_type) * n_constrains);
-    memset(LPP->variable_type_, NONE_VARIABLE, sizeof(Variable_type) * n_variables);
-    LPP->type = NONE;
-    LPP->solution_type = FEASIBLE_SOLUTION;
-    return 0;
-}
-
-int LPP_matrix_form_destroy(LPP_matrix_form *LPP) {
-    matrix_destroy_matrices(4, &(LPP->A), &(LPP->b), &(LPP->c), &(LPP->x));
-    free(LPP->constrain_type_);
-    free(LPP->variable_type_);
-    return 0;
-}
 
 // Inner interfaces
 
@@ -280,8 +247,7 @@ static int LPP_matrix_standard_form_set_matrices(LPP_matrix_standard_form *LPP) 
         return 1;
 
     size_t i;
-    int n_variables = (LPP->A).columns, n_constrains = (LPP->A).rows;
-    int n_variables_NB = n_variables - n_constrains;
+    uint32_t n_variables = (LPP->A).columns;
 
     // Basic matrices (B - matrices)
     for(i = 0; i < n_variables; i++) {
@@ -356,13 +322,13 @@ static int LPP_matrix_standard_form_find_entry_variable(LPP_matrix_standard_form
     }
     matrix_destroy(&Aux);
 
-    if(*entry_index == -1)
+    if(*entry_index == (size_t )-1)
         return 1;
 
     return 0;
 }
 
-static int LPP_matrix_standard_form_set_inv_B(LPP_matrix_standard_form *LPP, Matrix y_i, size_t entry_index, size_t leaving_index) {
+static int LPP_matrix_standard_form_set_inv_B(LPP_matrix_standard_form *LPP, Matrix y_i, size_t leaving_index) {
     Matrix E, new_inv_B;
     matrix_init_square_matrices((LPP->inv_B).rows, 2, &E, &new_inv_B);
     matrix_identity(&E);
@@ -376,7 +342,7 @@ static int LPP_matrix_standard_form_set_inv_B(LPP_matrix_standard_form *LPP, Mat
             
         (E.values)[i][(LPP->x_B)[leaving_index]] /= pivot;
         (E.values)[i][(LPP->x_B)[leaving_index]] *= -1.0;
-        if(i == (LPP->x_B)[leaving_index])
+        if(i == (size_t )(LPP->x_B)[leaving_index])
             (E.values)[i][(LPP->x_B)[leaving_index]] = 1 / pivot;
     }
 
@@ -421,9 +387,9 @@ static int LPP_matrix_standard_form_find_leaving_variable(LPP_matrix_standard_fo
         }
     }
 
-    LPP_matrix_standard_form_set_inv_B(LPP, y_i, entry_index, *leaving_index);
+    LPP_matrix_standard_form_set_inv_B(LPP, y_i, *leaving_index);
     matrix_destroy_matrices(2, &y_i, &A_i);
-    if(*leaving_index == -1)
+    if(*leaving_index == (size_t )-1)
         return 1;
 
     return 0;
@@ -451,7 +417,7 @@ static int LPP_matrix_standard_form_set_new_solution(LPP_matrix_standard_form *L
 }
 
 static int Simplex_method(LPP_matrix_standard_form *LPP) {
-    size_t i, j, l;
+    size_t i;
     int value;
     // Init solution
     LPP_matrix_standard_form_set_matrices(LPP);
@@ -543,5 +509,63 @@ static int LPP_matrix_form_set_solution(LPP_matrix_form *LPP_dest, LPP_matrix_st
     if(LPP_dest->type == MIN)
         (LPP_dest->z) *= -1.0;
 
+    return 0;
+}
+
+// Public interfaces
+
+int Simplex_solve(LPP_matrix_form *LPP) {
+    if(LPP == NULL)
+        return 0;
+
+    LPP_matrix_standard_form LPP_std;
+
+    LPP_matrix_form_to_standard_form(&LPP_std, LPP);
+
+    // Simplex method
+    int value = Simplex_method(&LPP_std);
+    
+    /* Translate solution */
+    LPP_matrix_form_set_solution_type(LPP, LPP_std, value);
+
+    LPP_matrix_form_set_solution(LPP, &LPP_std);
+
+    LPP_matrix_standard_form_destroy(&LPP_std);
+    return 1;
+}
+
+int LPP_matrix_form_init(LPP_matrix_form *LPP, size_t n_variables, size_t n_constrains) {
+    if(matrix_init(&(LPP->A), n_constrains, n_variables) != 0)
+        return 1;
+    
+    if(matrix_init_column_vector(&(LPP->b), n_constrains) != 0)
+        return 1;
+    
+    if(matrix_init_column_vector(&(LPP->x), n_variables) != 0)
+        return 1;
+
+    if(matrix_init_row_vector(&(LPP->c), n_variables) != 0)
+        return 1;
+
+    (LPP->constrain_type_) = (Constrain_type *)malloc(sizeof(Constrain_type) * n_constrains);
+    (LPP->variable_type_) = (Variable_type *)malloc(sizeof(Variable_type) * n_variables);
+
+    if(LPP->constrain_type_ == NULL)
+        return 1;
+
+    if(LPP->variable_type_ == NULL)
+        return 1;
+
+    memset(LPP->constrain_type_, NONE_CONSTRAIN, sizeof(Constrain_type) * n_constrains);
+    memset(LPP->variable_type_, NONE_VARIABLE, sizeof(Variable_type) * n_variables);
+    LPP->type = NONE;
+    LPP->solution_type = FEASIBLE_SOLUTION;
+    return 0;
+}
+
+int LPP_matrix_form_destroy(LPP_matrix_form *LPP) {
+    matrix_destroy_matrices(4, &(LPP->A), &(LPP->b), &(LPP->c), &(LPP->x));
+    free(LPP->constrain_type_);
+    free(LPP->variable_type_);
     return 0;
 }
