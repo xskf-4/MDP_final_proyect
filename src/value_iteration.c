@@ -82,7 +82,6 @@ uint32_t value_iteration_set_init_V(value_iteration *X, MDP *mdp) {
 }
 
 uint32_t value_iteration_set_init_values(value_iteration *X, MDP *mdp) {
-    size_t i;
     char input[MAX_INPUT_SIZE], *response = "";
 
     memset(input, '\0', MAX_INPUT_SIZE);
