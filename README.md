@@ -40,7 +40,7 @@ Este programa implementa los siguientes algoritmos:
 2. Compila el proyecto:
 
     ```console
-        gcc src/main.c src/list.c src/matrix_.c src/simplex.c -Iinclude -o bin/Proyecto_final
+        gcc main/main.c src/*.c -Iinclude -o bin/Proyecto_final
     ```
 
 #### Consideraciones Adicionales
