@@ -366,17 +366,16 @@ void MDP_print(MDP mdp) {
     }
 
     terminal_color_subtitle();
-    switch (mdp.type)
-    {
-    case COSTS_SYSTEM:
-        s = "Costos";
-        break;
-    case REWARDS_SYSTEM:
-        s = "Recompenzas";
-        break;
-    case NONE_SYSTEM:
-        s = "";
-        break;
+    switch (mdp.type) {  
+        case COSTS_SYSTEM:
+            s = "Costos";
+            break;
+        case REWARDS_SYSTEM:
+            s = "Recompenzas";
+            break;
+        case NONE_SYSTEM:
+            s = "";
+            break;
     }
     printf("\nMatriz de %s: \n", s);
     terminal_color_content();
@@ -400,7 +399,7 @@ void MDP_print(MDP mdp) {
 void MDP_check(MDP *mdp) {
     size_t i;
     Matrix *M;
-    double posible_row_sum_values[2] = {1.0, -1*(mdp->transition_matrix_[0].columns)};
+    double posible_row_sum_values[2] = {1.0, -1.0 * (double )(mdp->transition_matrix_[0].columns)};
     char *s;
 
     switch (mdp->type) {
