@@ -78,7 +78,7 @@ uint32_t Policy_read_from_input(Policy *P, char *src, MDP *mdp, char **response)
     } while(c != '\0');
 
     node = list_head(&word_list);
-    if((P->M).columns > list_size(&word_list)) {
+    if((P->M).columns > (uint32_t )list_size(&word_list)) {
         *response = " (Politica incompleta)";
         list_destroy(&word_list);
         return 0;
@@ -106,7 +106,6 @@ uint32_t Policy_read_from_input(Policy *P, char *src, MDP *mdp, char **response)
 /* Policy improvement */
 
 uint32_t policy_improvement_set_first_policy(Policy *P, MDP *mdp) {
-    size_t i;
     char input[MAX_INPUT_SIZE], *response = "";
     memset(input, '\0', MAX_INPUT_SIZE);
     terminal_color_content();
@@ -224,9 +223,7 @@ uint32_t policy_improvement_set_optimal_decision(uint32_t state, policy_improvem
 
 uint32_t policy_improvement_improve(policy_improvement *X, MDP *mdp) {
     size_t i;
-    ListNode *node;
-    uint32_t decision, *optimal_decisions;
-    double G_R;
+    uint32_t *optimal_decisions;
 
     optimal_decisions = (uint32_t *)malloc(sizeof(uint32_t) * (mdp->n_states));
 
@@ -282,7 +279,6 @@ uint32_t policy_improvement_solve_MDP(MDP *mdp) {
 /* Policy improvement (Discount Factor) */
 
 uint32_t policy_improvement_discount_factor_set_init_values(policy_improvement *X, MDP *mdp) {
-    size_t i;
     char input[MAX_INPUT_SIZE], *response = "";
     memset(input, '\0', MAX_INPUT_SIZE);
     // Read first policy
@@ -415,9 +411,7 @@ uint32_t policy_improvement_discount_factor_set_optimal_decision(uint32_t state,
 
 uint32_t policy_improvement_discount_improve(policy_improvement *X, MDP *mdp) {
     size_t i;
-    ListNode *node;
     uint32_t *optimal_decisions;
-    double G_R;
 
     optimal_decisions = (uint32_t *)malloc(sizeof(uint32_t) * (mdp->n_states));
 
