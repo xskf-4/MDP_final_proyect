@@ -5,8 +5,15 @@
  * @date 2026
 */
 
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+
 #include "utils.h"
 #include "MDP.h"
+#include "policy_improvement.h"
+
+#include "value_iteration.h"
 
 typedef struct {
     double discount_factor;
@@ -19,7 +26,7 @@ typedef struct {
     Policy P;
 } value_iteration;
 
-uint32_t value_iteration_init(value_iteration *X, MDP *mdp) {
+static uint32_t value_iteration_init(value_iteration *X, MDP *mdp) {
     matrix_init_column_vectors(mdp->n_states, 2, &(X->V_n), &(X->V_last));
     Policy_init(&(X->P), (mdp->n_states));
 
@@ -39,13 +46,13 @@ uint32_t value_iteration_init(value_iteration *X, MDP *mdp) {
     return 0;
 }
 
-uint32_t value_iteration_destroy(value_iteration *X) {
+static uint32_t value_iteration_destroy(value_iteration *X) {
     matrix_destroy_matrices(2, &(X->V_n), &(X->V_last));
     Policy_destroy(&(X->P));
     return 0;
 }
 
-uint32_t value_iteration_set_init_V(value_iteration *X, MDP *mdp) {
+static uint32_t value_iteration_set_init_V(value_iteration *X, MDP *mdp) {
     size_t i;
     uint32_t decision, optimal_decision;
     ListNode *node;
@@ -78,7 +85,7 @@ uint32_t value_iteration_set_init_V(value_iteration *X, MDP *mdp) {
     return 0;
 }
 
-uint32_t value_iteration_set_init_values(value_iteration *X, MDP *mdp) {
+static uint32_t value_iteration_set_init_values(value_iteration *X, MDP *mdp) {
     char input[MAX_INPUT_SIZE], *response = "";
 
     memset(input, '\0', MAX_INPUT_SIZE);
@@ -136,7 +143,7 @@ uint32_t value_iteration_set_init_values(value_iteration *X, MDP *mdp) {
     return 0;
 }
 
-uint32_t value_iteration_set_new_V(value_iteration *X, MDP *mdp) {
+static uint32_t value_iteration_set_new_V(value_iteration *X, MDP *mdp) {
     size_t i, j;
     List *decision_list;
     ListNode *node;
@@ -180,7 +187,7 @@ uint32_t value_iteration_set_new_V(value_iteration *X, MDP *mdp) {
     return 0;
 }
 
-uint32_t value_iteration_optimality_test(value_iteration *X) {
+static uint32_t value_iteration_optimality_test(value_iteration *X) {
     size_t i;
 
     if(X->iteration >= X->max_iterations)
@@ -194,7 +201,7 @@ uint32_t value_iteration_optimality_test(value_iteration *X) {
     return 1;
 }
 
-void value_iteration_print(value_iteration X) {
+static void value_iteration_print(value_iteration X) {
     size_t i;
     char label[MAX_WORD_SIZE];
     terminal_color_subtitle();

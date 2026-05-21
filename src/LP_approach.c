@@ -5,12 +5,16 @@
  * @date 2026
 */
 
+#include <stdlib.h>
+#include <stdio.h>
+
+#include "simplex.h"
 #include "utils.h"
 #include "MDP.h"
 
-#include <simplex.h>
+#include "LP_approach.h"
 
-void LPP_matrix_form_print(LPP_matrix_form LPP, MDP mdp) {
+static void LPP_matrix_form_print(LPP_matrix_form LPP, MDP mdp) {
     // print A | b
     size_t i, j, l;
     uint32_t decision;
@@ -70,7 +74,7 @@ void LPP_matrix_form_print(LPP_matrix_form LPP, MDP mdp) {
     print_int32_array((int32_t *)LPP.variable_type_, n_variables, 2);
 }
 
-void LP_approach_print_results(MDP mdp, LPP_matrix_form LPP) {
+static void LP_approach_print_results(MDP mdp, LPP_matrix_form LPP) {
     size_t i, l;
     ListNode *node;
     uint32_t decision;
@@ -113,7 +117,7 @@ void LP_approach_print_results(MDP mdp, LPP_matrix_form LPP) {
     Policy_print((mdp.optimal_policy), s);
 }
 
-uint32_t LP_approach_set_n_variables(size_t *n_variables, MDP *mdp) {
+static uint32_t LP_approach_set_n_variables(size_t *n_variables, MDP *mdp) {
     size_t i;
 
     *n_variables = 0;
@@ -123,7 +127,7 @@ uint32_t LP_approach_set_n_variables(size_t *n_variables, MDP *mdp) {
     return 0;
 }
 
-uint32_t LP_approach_set_objective_function(LPP_matrix_form *LPP, MDP *mdp) {
+static uint32_t LP_approach_set_objective_function(LPP_matrix_form *LPP, MDP *mdp) {
     uint32_t i, j, l;
     ListNode *node;
 
@@ -151,7 +155,7 @@ uint32_t LP_approach_set_objective_function(LPP_matrix_form *LPP, MDP *mdp) {
     return 0;
 }
 
-uint32_t LP_approach_set_constrains(LPP_matrix_form *LPP, MDP *mdp) {
+static uint32_t LP_approach_set_constrains(LPP_matrix_form *LPP, MDP *mdp) {
     // first constrain
     size_t i, j, l, k, w;
     uint32_t n_variables = (LPP->A).columns, n_constrains = (LPP->A).rows;
@@ -191,14 +195,14 @@ uint32_t LP_approach_set_constrains(LPP_matrix_form *LPP, MDP *mdp) {
     return 0;
 }
 
-uint32_t LP_approach_set_variable_types(LPP_matrix_form *LPP) {
+static uint32_t LP_approach_set_variable_types(LPP_matrix_form *LPP) {
     size_t i;
     for(i = 0; i < LPP->c.columns; i++)
         (LPP->variable_type_)[i] = NON_NEGATIVE_VARIABLE;
     return 0;
 }
 
-uint32_t LP_approach_set_LPP(LPP_matrix_form *LPP, MDP *mdp) {
+static uint32_t LP_approach_set_LPP(LPP_matrix_form *LPP, MDP *mdp) {
     // set objective function
     LP_approach_set_objective_function(LPP, mdp);
     // set constrains
@@ -208,7 +212,7 @@ uint32_t LP_approach_set_LPP(LPP_matrix_form *LPP, MDP *mdp) {
     return 0;
 }
 
-uint32_t Set_optimal_policy(MDP *mdp, Matrix x, double z) {
+static uint32_t Set_optimal_policy(MDP *mdp, Matrix x, double z) {
     size_t i, j;
     Matrix D;
     matrix_init(&D, (mdp->n_states), (mdp->n_decisions));

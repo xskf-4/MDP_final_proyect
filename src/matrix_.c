@@ -4,6 +4,7 @@
  * @author Hernandez Reyes Sebastian (xskf-4)
  * @date 2026
 */
+
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdarg.h>

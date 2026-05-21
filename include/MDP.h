@@ -11,6 +11,7 @@
 
 #include "list.h"
 #include "matrix_.h"
+#include "utils.h"
 
 /*
     Struct for Policies
@@ -57,6 +58,7 @@ uint32_t Policy_init(Policy *P, uint32_t n_states);
 void Policy_clone(Policy *dest, Policy *src);
 uint32_t Policy_are_equal(Policy p1, Policy p2);
 uint32_t Policy_set_from_array(Policy *P, uint32_t *src, MDP mdp);
+uint32_t Policy_set_empty(Policy *P);
 uint32_t Policy_get_stationary_vector(Policy *P, Matrix_system *S);
 uint32_t Policy_get_expected_average_cost(Policy *P, Matrix *Costs);
 

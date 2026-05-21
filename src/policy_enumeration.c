@@ -5,15 +5,20 @@
  * @date 2026
 */
 
+#include <stdlib.h>
+#include <stdio.h>
+
 #include "utils.h"
 #include "MDP.h"
+
+#include "policy_enumeration.h"
 
 typedef struct {
     uint32_t **policy_;
     uint32_t n;
 } feasible_policies;
 
-uint32_t count_allowed_decision(MDP mdp, size_t state) {
+static uint32_t count_allowed_decision(MDP mdp, size_t state) {
     size_t i;
     uint32_t count = 0;
     Matrix *transition_matrix = NULL;
@@ -28,7 +33,7 @@ uint32_t count_allowed_decision(MDP mdp, size_t state) {
     return count;
 }
 
-void feasible_policies_init(feasible_policies *f_p, MDP mdp) {
+static void feasible_policies_init(feasible_policies *f_p, MDP mdp) {
     size_t i;
     // set n_policies
     f_p->n = 1;
@@ -41,7 +46,7 @@ void feasible_policies_init(feasible_policies *f_p, MDP mdp) {
         f_p->policy_[i] = (uint32_t *)malloc(sizeof(uint32_t) * (mdp.n_states));
 }
 
-void feasible_policies_destroy(feasible_policies *f_p) {
+static void feasible_policies_destroy(feasible_policies *f_p) {
     size_t i;
 
     for(i = 0; i < f_p->n; i++)
@@ -50,7 +55,7 @@ void feasible_policies_destroy(feasible_policies *f_p) {
     free(f_p->policy_);
 }
 
-void feasible_policies_set_combination(feasible_policies *f_p, MDP mdp) {
+static void feasible_policies_set_combination(feasible_policies *f_p, MDP mdp) {
     size_t i, j, k, l;
 
     List *valid_state_decision_list;
@@ -78,7 +83,7 @@ void feasible_policies_set_combination(feasible_policies *f_p, MDP mdp) {
     }
 }
 
-void feasible_policies_print(feasible_policies f_p, MDP mdp) {
+static void feasible_policies_print(feasible_policies f_p, MDP mdp) {
     size_t i;
 
     terminal_color_subtitle();
@@ -92,7 +97,7 @@ void feasible_policies_print(feasible_policies f_p, MDP mdp) {
     }
 }
 
-void policy_enumeration_get_optimal_policy(MDP *mdp, feasible_policies *f_p, char *s[2], uint8_t (*compare)(double , double )){
+static void policy_enumeration_get_optimal_policy(MDP *mdp, feasible_policies *f_p, char *s[2], uint8_t (*compare)(double , double )){
     size_t i = 0;
     Policy p;
     uint32_t states = mdp->n_states;

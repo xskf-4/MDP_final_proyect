@@ -4,11 +4,13 @@
  * @author Hernandez Reyes Sebastian (xskf-4)
  * @date 2026
 */
-#include "menu.c"
+
+#include <stdio.h>
+
+#include "menu_.h"
+#include "MDP.h"
 
 #define not_enought_arguments_provided "No se ingresaron archivos fuente"
-
-extern uint32_t main_menu(MDP *, uint32_t , char **);
 
 int main(int argc, char **argv) {
     MDP mdp;

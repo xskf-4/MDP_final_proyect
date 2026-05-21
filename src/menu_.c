@@ -1,120 +1,40 @@
 /**
- * @file menu.c
+ * @file menu_.c
  * @brief Implementation of the main menu and set application flow
  * @author Hernandez Reyes Sebastian (xskf-4)
  * @date 2026
 */
 
+#include <stdlib.h>
+#include <stdio.h>
+
 #include "utils.h"
 #include "MDP.h"
 
-#include "read_input.c"
-#include "policy_enumeration.c"
-#include "LP_approach.c"
-#include "policy_improvement.c"
-#include "value_iteration.c"
+#include "read_input.h"
+#include "policy_enumeration.h"
+#include "LP_approach.h"
+#include "policy_improvement.h"
+#include "value_iteration.h"
+
+#include "menu_.h"
 
 #define proccess_error "Error durante el proceso"
 
-void print_main_title() {
+static void print_main_title() {
     printf("\033[2J"); // clean screen
     printf("\033[H");   // move cursor to the start
     terminal_color_main_title();
     print_title("Proyecto Final Procesos Estocasticos");
 }
 
-uint32_t proccess_input_file(MDP *mdp, char *src) {
-    terminal_color_title();
-    printf("\nResultado para '%s':\n", src);
-    terminal_color_content();
-
-    // Read MDP from file
-    switch(read_mdp_from_file(mdp, src)) {
-        case -2:
-            MDP_destroy(mdp);
-            /* fallthrough */
-        case -1:
-            printf("\n%s para %s\n", proccess_error, src);
-            printf("No se pudo leer del archivo\n");
-            return 1;
-    }
-
-    MDP_print(*mdp);
-    MDP_check(mdp);
-
-    terminal_bold_text();
-
-    if(mdp->is_valid) {
-        terminal_color_green();
-    }
-    else {
-        terminal_color_red()
-    }
-
-    printf("\nEl modelo %ses valido\n", (!mdp->is_valid)?"no ": "");
-    terminal_color_reset();
-
-    // Try all methods
-    if(mdp->is_valid) {
-        // Policy enumeration
-        terminal_color_subtitle();
-        printf("\nMetodo de Enumeracion Exhaustiva de Politicas");
-        terminal_color_content();
-        policy_enumeration_solve_MDP(mdp);
-        /*
-        */
-
-        // LP approach
-        Policy_set_empty(&(mdp->optimal_policy)); // empty optimal policy
-        terminal_color_subtitle();
-        printf("\nSolucion por Programacion Lineal");
-        terminal_color_content();
-        LP_approach_solve_MDP(mdp);
-        /*
-        */
-
-        // Policy Improvement
-        Policy_set_empty(&(mdp->optimal_policy)); // empty optimal policy
-        terminal_color_subtitle();
-        printf("\nMetodo de Mejoramiento de Politicas");
-        terminal_color_content();
-        policy_improvement_solve_MDP(mdp);
-        /*
-        */
-
-        // Policy Improvement (Discount factor)
-        Policy_set_empty(&(mdp->optimal_policy)); // empty optimal policy
-        terminal_color_subtitle();
-        printf("\nMetodo de Mejoramiento de Politicas (Factor de descuento)");
-        terminal_color_content();
-        policy_improvement_discount_factor_solve_MDP(mdp);
-        /*
-        */
-        
-        // Value Iteration
-        Policy_set_empty(&(mdp->optimal_policy)); // empty optimal policy
-        terminal_color_subtitle();
-        printf("\nMetodo de Aproximaciones Sucesivas");
-        terminal_color_content();
-        value_iteration_solve_MDP(mdp);
-        /*
-        */
-    }
-
-    // Destroy MDP
-    if(mdp->n_decisions != 0)
-        MDP_destroy(mdp);
-
-    return 0;
-}
-
-void print_end() {
+static void print_end() {
     terminal_color_main_title();
     printf("\n\nFin\n");
     terminal_color_reset();
 }
 
-void end_proccess() {
+static void end_proccess() {
     char input[MAX_INPUT_SIZE];
     terminal_color_main_title();
     printf("\n\nFin del Proceso (Presione Enter)");
@@ -122,7 +42,7 @@ void end_proccess() {
     fgets(input, MAX_INPUT_SIZE, stdin);
 }
 
-void menu_print_options() {
+static void menu_print_options() {
     terminal_color_subtitle();
     printf("\nMenu");
     terminal_color_content();
@@ -135,7 +55,7 @@ void menu_print_options() {
     printf("\n7.-Salir");
 }
 
-uint32_t read_option(uint32_t *option, uint32_t lower_bound, uint32_t upper_bound, char **response) {
+static uint32_t read_option(uint32_t *option, uint32_t lower_bound, uint32_t upper_bound, char **response) {
     char input[MAX_INPUT_SIZE];
 
     fgets(input, MAX_INPUT_SIZE, stdin);
@@ -153,7 +73,7 @@ uint32_t read_option(uint32_t *option, uint32_t lower_bound, uint32_t upper_boun
     return 1;
 }
 
-uint32_t menu_read_option() {
+static uint32_t menu_read_option() {
     uint32_t read_value;
     char *response = "";
     printf("\n");
@@ -164,7 +84,7 @@ uint32_t menu_read_option() {
     return read_value;
 }
 
-uint32_t file_menu(MDP *mdp, char *src) {
+static uint32_t file_menu(MDP *mdp, char *src) {
     uint32_t read_status = read_mdp_from_file(mdp, src);
     uint32_t option;
     do {

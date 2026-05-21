@@ -4,12 +4,14 @@
  * @author Hernandez Reyes Sebastian (xskf-4)
  * @date 2026
 */
-#ifndef MDP_IMPLEMENTATION
-    #include "MDP.c"
-#endif
-#ifndef UTILS_IMPLEMENTATION
-    #include "utils.c"
-#endif
+
+#include <stdint.h>
+#include <string.h>
+
+#include "utils.h"
+#include "MDP.h"
+
+#include "policy_improvement.h"
 
 typedef struct {
     double discount_factor;
@@ -19,7 +21,7 @@ typedef struct {
     Policy P;
 } policy_improvement;
 
-uint32_t policy_improvement_init(policy_improvement *X, MDP *mdp) {
+static uint32_t policy_improvement_init(policy_improvement *X, MDP *mdp) {
     Policy_init(&(X->P), mdp->n_states);
 
     switch(mdp->type) {
@@ -38,7 +40,7 @@ uint32_t policy_improvement_init(policy_improvement *X, MDP *mdp) {
     return 0;
 }
 
-uint32_t policy_improvement_destroy(policy_improvement *X) {
+static uint32_t policy_improvement_destroy(policy_improvement *X) {
     Policy_destroy(&(X->P));
     Matrix_system_destroy(&(X->S));
 
@@ -46,7 +48,7 @@ uint32_t policy_improvement_destroy(policy_improvement *X) {
 }
 
 
-uint32_t Policy_read_from_input(Policy *P, char *src, MDP *mdp, char **response) {
+static uint32_t Policy_read_from_input(Policy *P, char *src, MDP *mdp, char **response) {
     List word_list;
     ListNode *node;
     size_t i, len;
@@ -105,7 +107,7 @@ uint32_t Policy_read_from_input(Policy *P, char *src, MDP *mdp, char **response)
 
 /* Policy improvement */
 
-uint32_t policy_improvement_set_first_policy(Policy *P, MDP *mdp) {
+static uint32_t policy_improvement_set_first_policy(Policy *P, MDP *mdp) {
     char input[MAX_INPUT_SIZE], *response = "";
     memset(input, '\0', MAX_INPUT_SIZE);
     terminal_color_content();
@@ -125,7 +127,7 @@ uint32_t policy_improvement_set_first_policy(Policy *P, MDP *mdp) {
     return 0;
 }
 
-void policy_improvement_print_iteration(policy_improvement X) {
+static void policy_improvement_print_iteration(policy_improvement X) {
     size_t i;
     char label[256];
 
@@ -161,7 +163,7 @@ void policy_improvement_print_iteration(policy_improvement X) {
     print_uint32_array((X.P).decision_by_state_, (X.S).A.columns - 1, 3);
 }
 
-uint32_t policy_improvement_set_value(policy_improvement *X, MDP *mdp) {
+static uint32_t policy_improvement_set_value(policy_improvement *X, MDP *mdp) {
     size_t i, j;
     /* Set matrix system */
     // set A
@@ -186,7 +188,7 @@ uint32_t policy_improvement_set_value(policy_improvement *X, MDP *mdp) {
     return 0;
 }
 
-uint32_t policy_improvement_set_optimal_decision(uint32_t state, policy_improvement *X, MDP *mdp) {
+static uint32_t policy_improvement_set_optimal_decision(uint32_t state, policy_improvement *X, MDP *mdp) {
     List *decision_list = (mdp->valid_state_decisions_lists + state);
     ListNode *node;
     uint32_t optimal_decision, decision;
@@ -221,7 +223,7 @@ uint32_t policy_improvement_set_optimal_decision(uint32_t state, policy_improvem
     return optimal_decision + 1;
 }
 
-uint32_t policy_improvement_improve(policy_improvement *X, MDP *mdp) {
+static uint32_t policy_improvement_improve(policy_improvement *X, MDP *mdp) {
     size_t i;
     uint32_t *optimal_decisions;
 
@@ -237,7 +239,7 @@ uint32_t policy_improvement_improve(policy_improvement *X, MDP *mdp) {
     return 0;
 }
 
-void policy_improvement_print_results(MDP *mdp) {
+static void policy_improvement_print_results(MDP *mdp) {
     char *s[2];
     MDP_set_labels(s, *mdp);
     terminal_color_subtitle();
@@ -278,7 +280,7 @@ uint32_t policy_improvement_solve_MDP(MDP *mdp) {
 
 /* Policy improvement (Discount Factor) */
 
-uint32_t policy_improvement_discount_factor_set_init_values(policy_improvement *X, MDP *mdp) {
+static uint32_t policy_improvement_discount_factor_set_init_values(policy_improvement *X, MDP *mdp) {
     char input[MAX_INPUT_SIZE], *response = "";
     memset(input, '\0', MAX_INPUT_SIZE);
     // Read first policy
@@ -317,7 +319,7 @@ uint32_t policy_improvement_discount_factor_set_init_values(policy_improvement *
     return 0;
 }
 
-void policy_improvement_discount_print_iteration(policy_improvement X) {
+static void policy_improvement_discount_print_iteration(policy_improvement X) {
     size_t i;
     char label[256];
 
@@ -351,8 +353,7 @@ void policy_improvement_discount_print_iteration(policy_improvement X) {
     print_uint32_array((X.P).decision_by_state_, (X.S).A.rows, 3);
 }
 
-
-uint32_t policy_improvement_discount_factor_set_value(policy_improvement *X, MDP *mdp) {
+static uint32_t policy_improvement_discount_factor_set_value(policy_improvement *X, MDP *mdp) {
     size_t i, j;
     /* Set matrix system */
     // set A
@@ -376,7 +377,7 @@ uint32_t policy_improvement_discount_factor_set_value(policy_improvement *X, MDP
     return 0;
 }
 
-uint32_t policy_improvement_discount_factor_set_optimal_decision(uint32_t state, MDP *mdp, policy_improvement *X) {
+static uint32_t policy_improvement_discount_factor_set_optimal_decision(uint32_t state, MDP *mdp, policy_improvement *X) {
     List *decision_list = (mdp->valid_state_decisions_lists + state);
     ListNode *node;
     uint32_t optimal_decision, decision;
@@ -409,7 +410,7 @@ uint32_t policy_improvement_discount_factor_set_optimal_decision(uint32_t state,
     return optimal_decision;
 }
 
-uint32_t policy_improvement_discount_improve(policy_improvement *X, MDP *mdp) {
+static uint32_t policy_improvement_discount_improve(policy_improvement *X, MDP *mdp) {
     size_t i;
     uint32_t *optimal_decisions;
 

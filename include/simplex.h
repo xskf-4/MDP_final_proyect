@@ -7,7 +7,9 @@
 #ifndef SIMPLEX_H
 #define SIMPLEX_H
 
-#include <matrix_.h>
+#include <stdlib.h>
+
+#include "matrix_.h"
 
 #define SIMPLEX_EPSILON 1e-12
 #define MAX_ITERATIONS 100

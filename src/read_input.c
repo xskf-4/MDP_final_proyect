@@ -11,6 +11,8 @@
 #include "utils.h"
 #include "MDP.h"
 
+#include "read_input.h"
+
 typedef struct {
     uint32_t n_states;
     uint32_t n_decitions;
@@ -18,7 +20,7 @@ typedef struct {
     size_t state;
 } Reading_status;
 
-uint32_t get_word_list(List *list, FILE *f) {
+static uint32_t get_word_list(List *list, FILE *f) {
     char word[MAX_WORD_SIZE], c[2] = {0, 0};
     size_t len = 0;
 
@@ -54,7 +56,7 @@ uint32_t get_word_list(List *list, FILE *f) {
     return 0;
 }
 
-void read_tag(Reading_status *reading_status, char **word, ListNode **node) {
+static void read_tag(Reading_status *reading_status, char **word, ListNode **node) {
     if(reading_status->n_decitions == 0 && compare_strings_from_to(*word, DECITIONS_TAG, 1)) {
         *node = list_next(*node);
         *word = list_data(*node);
@@ -72,7 +74,7 @@ void read_tag(Reading_status *reading_status, char **word, ListNode **node) {
     return;
 }
 
-uint32_t read_matrix_from_starting_node(Matrix *M, ListNode *node) {
+static uint32_t read_matrix_from_starting_node(Matrix *M, ListNode *node) {
     size_t i, j;
     char *word;
 
@@ -103,7 +105,7 @@ uint32_t read_matrix_from_starting_node(Matrix *M, ListNode *node) {
     return 0;
 }
 
-uint32_t read_word_list(MDP *mdp, List *word_list) {
+static uint32_t read_word_list(MDP *mdp, List *word_list) {
     if(list_size(word_list) < 4)
         return -1;
     
@@ -215,7 +217,7 @@ uint32_t read_word_list(MDP *mdp, List *word_list) {
         return -2;
 }
 
-uint32_t read_mdp(MDP *mdp, FILE *f) {
+static uint32_t read_mdp(MDP *mdp, FILE *f) {
     // Init word list
     List word_list;
     list_init(&word_list, free);
