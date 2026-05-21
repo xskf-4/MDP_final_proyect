@@ -9,58 +9,10 @@
 #include <math.h>
 #include <string.h>
 
-#include <list.h>
-#include <matrix_.h>
+#include "list.h"
+#include "matrix_.h"
 
-typedef struct  {
-    Matrix b, A, inv_A, x;
-} Matrix_system;
-
-// Global Macros
-#define MAX_INPUT_SIZE 256
-#define MAX_WORD_SIZE 256
-#define EPSILON 1e-9
-// Char Macros
-#define is_valid_char_in_number(x) (isdigit((x)) || (x) == '.' || (x) == '-' || (x) == '+' || (x) == '/' || (x) == 'e' || (x) == 'a' || (x) == 'n')
-#define is_valid_char_in_word(x) (isalpha((x)) || is_valid_char_in_number((x)) || (x) == '#')
-// List Macros
-#define list_append(l, x) list_ins_next((l), list_tail((l)), (void *)(x));
-// int Macros
-#define int_in(x, a, b) ((x) >= (a) && (x) <= (b))
-// Number Macros
-#define are_equal(x, y) (fabs((x) - (y)) < EPSILON)
-// Matrix Macros
-#define is_valid_in_matrix(x) ((0.0 - EPSILON <= (x) && (x) <= 1.0 + EPSILON) || are_equal((x), -1.0))
-// Cost Char* Macros
-#define DECITIONS_TAG "decisiones"
-#define STATES_TAG "estados"
-#define COSTS_TAG "costos"
-#define REWARD_TAG "recompenzas"
-// Number Size Macros
-#define NUMBER_LENGTH 16
-#define NUMBER_DECIMALS 8
-// Terminal color macros
-#define terminal_color_set(r, g, b) printf("\033[38;2;%s;%s;%sm", (r), (g), (b))
-#define terminal_bold_text() printf("\033[1m")
-#define terminal_color_reset() printf("\033[0m")
-#define terminal_color_main_title()                  \
-            terminal_bold_text();                    \
-            terminal_color_set("255", "130", "222") // 255, 130, 222
-
-#define terminal_color_title()                       \
-            terminal_bold_text();                    \
-            terminal_color_set("212", "179", "252") // 212, 179, 252
-
-#define terminal_color_subtitle()                    \
-            terminal_color_reset();                  \
-            terminal_color_set("138", "208", "255") // 138, 208, 255
-            
-#define terminal_color_content()                    \
-            terminal_color_reset();                 \
-            terminal_color_set("211", "219", "242") // 211, 219, 242
-
-#define terminal_color_red() terminal_color_set("217", "13", "38"); // 217, 13, 38
-#define terminal_color_green() terminal_color_set("29", "161", "50"); // 29, 161, 50
+#include "utils.h"
 
 uint32_t Matrix_system_init(Matrix_system *S, uint32_t n_variables) {
     if(S == NULL)
@@ -149,6 +101,18 @@ uint32_t compare_strings_from_to(char *str_1, char *str_2, size_t str_1_init) {
         return 0;
     
     return 1;
+}
+
+void replace_first_char(char *src, char target, char c) {
+    size_t i = 0;
+    while (src[i] != target) {
+        if(src[i] == '\0')
+            return;
+        
+        i++;
+    }
+    
+    src[i] = c;
 }
 
 void matrix_print(Matrix M, uint8_t num_len, uint8_t n_decimals) {
@@ -265,13 +229,6 @@ uint32_t matrix_check_values(Matrix M, double *targets, size_t length) {
     return 1;
 }
 
-void printf_separation(char c, size_t len) {
-    size_t i;
-    for(i = 0; i < len; i++)
-        printf("%c", c);
-}
-
-
 void print_title(char *str) {
     printf("\n%s\n\n", str);
 }
@@ -324,16 +281,4 @@ uint8_t max_comparison(double x, double y) {
 
 uint8_t min_comparison(double x, double y) {
     return (x < y);
-}
-
-void replace_first_char(char *src, char target, char c) {
-    size_t i = 0;
-    while (src[i] != target) {
-        if(src[i] == '\0')
-            return;
-        
-        i++;
-    }
-    
-    src[i] = c;
 }
