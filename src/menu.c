@@ -25,6 +25,7 @@ uint32_t proccess_input_file(MDP *mdp, char *src) {
     switch(read_mdp_from_file(mdp, src)) {
         case -2:
             MDP_destroy(mdp);
+            /* fallthrough */
         case -1:
             printf("\n%s para %s\n", proccess_error, src);
             printf("No se pudo leer del archivo\n");
@@ -168,6 +169,7 @@ uint32_t file_menu(MDP *mdp, char *src) {
         switch(read_status) {
             case -2:
                 MDP_destroy(mdp);
+                /* fallthrough */
             case -1:
                 printf("\n%s para %s\n", proccess_error, src);
                 printf("No se pudo leer del archivo\n");
@@ -253,7 +255,7 @@ uint32_t main_menu(MDP *mdp, uint32_t argc, char **argv) {
 
     do {
         return_value = file_menu(mdp, argv[index_file]);
-        if(return_value == -1)
+        if(return_value == (uint32_t)-1)
             break;
 
         index_file ++;
