@@ -4,35 +4,12 @@
  * @author Hernandez Reyes Sebastian (xskf-4)
  * @date 2026
 */
-#ifndef UTILS_IMPLEMENTATION
-    #include "utils.c"
-#endif
+#include <stdint.h>
 
-typedef struct {
-    uint32_t *decision_by_state_;
-    double expected_average_cost;
-    Matrix M;
-    Matrix stationary_vector;
-    uint8_t is_valid;
-} Policy;
+#include "utils.h"
+#include "matrix_.h"
 
-typedef enum {
-    COSTS_SYSTEM = 0,
-    REWARDS_SYSTEM,
-    NONE_SYSTEM
-} system_type;
-
-typedef struct {
-    uint32_t n_states;
-    uint32_t n_decisions;
-    uint8_t is_valid;
-    Matrix *transition_matrix_;
-    Matrix costs_matrix;
-    List *valid_decision_states_lists; // valid decision k states lists (uint32_t)
-    List *valid_state_decisions_lists; // valid state i decisions lists (uint32_t)
-    Policy optimal_policy;
-    system_type type;
-} MDP;
+#include "MDP.h"
 
 uint32_t Policy_init(Policy *P, uint32_t n_states) {
     if(P == NULL)
@@ -125,7 +102,7 @@ uint32_t Policy_set_empty(Policy *P) {
     return 0;
 }
 
-void Policy_set_matrix_A(Matrix *A, Matrix *src) {
+static void Policy_set_matrix_A(Matrix *A, Matrix *src) {
     size_t i;
 
     matrix_transpose(A, src);
@@ -136,7 +113,7 @@ void Policy_set_matrix_A(Matrix *A, Matrix *src) {
         (A->values)[A->rows - 1][i] = 1.0;
 }
 
-void Policy_set_matrix_b(Matrix *b) {
+static void Policy_set_matrix_b(Matrix *b) {
     (b->values)[b->rows - 1][0] = 1.0;
 }
 
@@ -328,7 +305,7 @@ void MDP_destroy(MDP *mdp) {
     free(mdp->transition_matrix_);
 }
 
-void MDP_set_valid_decision_states_list(MDP *mdp, size_t decision) {
+static void MDP_set_valid_decision_states_list(MDP *mdp, size_t decision) {
     size_t i;
     uint32_t *valid_state;
     Matrix *transition_matrix = &(mdp->transition_matrix_[decision]);
@@ -345,7 +322,7 @@ void MDP_set_valid_decision_states_list(MDP *mdp, size_t decision) {
     }
 }
 
-void MDP_set_valid_state_decisions_list(MDP *mdp, size_t state) {
+static void MDP_set_valid_state_decisions_list(MDP *mdp, size_t state) {
     size_t i;
     uint32_t *valid_decision;
     Matrix *transition_matrix;
