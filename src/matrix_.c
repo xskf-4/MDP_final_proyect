@@ -617,9 +617,9 @@ uint32_t matrix_euclidean_norm(Matrix *M, double *norm) {
 
     for(i = 0; i < M->rows; i++)
         for(j = 0; j < M->columns; j++)
-            *norm += powl((M->values)[i][j], 2);
+            *norm += pow((M->values)[i][j], 2);
     
-    *norm = sqrtl(*norm);
+    *norm = sqrt(*norm);
 
     return 0;
 }
