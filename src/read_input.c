@@ -184,7 +184,7 @@ static uint32_t read_word_list(MDP *mdp, List *word_list) {
             mdp->type=REWARDS_SYSTEM;
         }
 
-        if(isnumber(word[1])) {
+        if(isdigit(word[1])) {
             if(sscanf(word + 1, "%zd", &(reading_status.state)) != 1)
                 goto RETURN_STATUS_2;
 

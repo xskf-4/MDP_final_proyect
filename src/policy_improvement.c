@@ -61,12 +61,12 @@ static uint32_t Policy_read_from_input(Policy *P, char *src, MDP *mdp, char **re
     memset(word, '\0', MAX_WORD_SIZE);
     do {
         c = src[i];
-        if(!isnumber(c) && len == 0) {
+        if(!isdigit(c) && len == 0) {
             i++;
             continue;
         }
 
-        if(!isnumber(c) && len != 0) {
+        if(!isdigit(c) && len != 0) {
             append_word_to_list(&word_list, word, len);
             memset(word, '\0', MAX_WORD_SIZE);
             len = 0;
