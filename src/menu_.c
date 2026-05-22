@@ -22,8 +22,7 @@
 #define proccess_error "Error durante el proceso"
 
 static void print_main_title() {
-    printf("\033[2J"); // clean screen
-    printf("\033[H");   // move cursor to the start
+    terminal_clear();
     terminal_color_main_title();
     print_title("Proyecto Final Procesos Estocasticos");
 }

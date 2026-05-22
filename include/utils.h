@@ -99,9 +99,13 @@ uint8_t min_comparison(double x, double y);
 #define NUMBER_LENGTH 16
 #define NUMBER_DECIMALS 8
 // Terminal color macros
-#define terminal_color_set(r, g, b) printf("\033[38;2;%s;%s;%sm", (r), (g), (b))
-#define terminal_bold_text() printf("\033[1m")
-#define terminal_color_reset() printf("\033[0m")
+#define terminal_clear()                             \
+            printf("\x1b[2J\x1b[H");                 \
+            fflush(stdout)
+
+#define terminal_color_set(r, g, b) printf("\x1b[38;2;%s;%s;%sm", (r), (g), (b))
+#define terminal_bold_text() printf("\x1b[1m")
+#define terminal_color_reset() printf("\x1b[0m")
 #define terminal_color_main_title()                  \
             terminal_bold_text();                    \
             terminal_color_set("255", "130", "222") // 255, 130, 222
