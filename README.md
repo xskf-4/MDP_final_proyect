@@ -45,7 +45,13 @@ Este programa implementa los siguientes algoritmos:
 
 #### Consideraciones Adicionales
 
-El programa utiliza códigos escape ANSI para manipular colores en la terminal. Utilizar el programa en una terminal que no admita true-color o sea incompatible con los códigos escape ANSI, resultará en comportamiento no deseable al menos visualmente (Se está trabajando en ello).
+- En un entorno Linux, es indispensable añadir la bandera `-lm` al final del comando de compilación.
+
+    ```console
+        gcc main/main.c src/*.c -Iinclude -o bin/Proyecto_final -lm
+    ```
+
+- El programa utiliza códigos escape ANSI para manipular colores en la terminal. Utilizar el programa en una terminal que no admita true-color o sea incompatible con los códigos escape ANSI, resultará en comportamiento no deseable al menos visualmente (Se está trabajando en ello).
 
 ### Uso
 
