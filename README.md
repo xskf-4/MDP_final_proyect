@@ -16,7 +16,9 @@ Este programa implementa los siguientes algoritmos:
 
 - `src/`: Archivos fuente (`.c`) con la lógica de los algoritmos y funciones de utilidad.
 
-- `include/`: Cabeceras (`.h`) con las estructuras de datos primarias.
+- `include/`: Cabeceras (`.h`) con las estructuras de datos e interfaces primarias.
+
+- `main/`: Archivo (`main.c`) principal.
 
 - `examples/`: Archivos (`.txt`) de prueba con modelos de MDPs.
 
