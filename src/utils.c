@@ -129,6 +129,13 @@ void matrix_print(Matrix M, uint8_t num_len, uint8_t n_decimals) {
 uint32_t read_double_from_str(char *str, double *number) {
     if(str == NULL)
         return 0;
+    // Check 'nan' in str
+    if(strcmp("nan", str) == 0) {
+        *number = NAN;
+        return 1;
+    }
+
+
     // Check '/' in str
     size_t i = 0;
     uint8_t counter = 0;
