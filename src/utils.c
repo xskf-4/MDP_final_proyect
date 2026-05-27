@@ -5,6 +5,7 @@
  * @date 2026
 */
 #include <stdio.h>
+#include <stdio.h>
 #include <ctype.h>
 #include <math.h>
 #include <string.h>
@@ -130,11 +131,10 @@ uint32_t read_double_from_str(char *str, double *number) {
     if(str == NULL)
         return 0;
     // Check 'nan' in str
-    if(strcmp("nan", str) == 0) {
+    if(strcmp(str, "nan") == 0) {
         *number = NAN;
         return 1;
     }
-
 
     // Check '/' in str
     size_t i = 0;
